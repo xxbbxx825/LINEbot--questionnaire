@@ -23,7 +23,12 @@ class LinebotController < ApplicationController
     events = client.parse_events_from(body)
 
     events.each { |event|
+      require "date"
+      require 'nokogiri'
+      require 'open-uri'
 
+      now = DateTime.now
+      nowTime = now.strftime("%H:%M")
 
       if event.message["text"].include?("1")
         urlOdakyu = 'https://www.odakyu.jp/cgi-bin/user/emg/emergency_bbs.pl'
