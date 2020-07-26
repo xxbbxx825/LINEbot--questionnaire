@@ -23,8 +23,8 @@ class LinebotController < ApplicationController
     events = client.parse_events_from(body)
 
     events.each { |event|
-      require 'nokogiri'
       require 'open-uri'
+      require 'nokogiri'
 
       if event.message["text"].include?("1")
         urlOdakyu = 'https://www.odakyu.jp/cgi-bin/user/emg/emergency_bbs.pl'
@@ -36,20 +36,12 @@ class LinebotController < ApplicationController
         docOdakyu = Nokogiri::HTML.parse(htmlOdakyu, nil, charset)
         docOdakyu.xpath('//div[@id="pagettl"]').each do |node|
         response = 
-          node.css('p').inner_text+"\n\n\n
-          ↓↓番号を選択↓↓\n
-          1. 開成駅→会社（シャトルバス）\n
-          2. 会社→開成駅（シャトルバス）\n
-          3. 電車の運行状況\n
-          4. 会社周辺の天気\n
-          5. 東京の天気\n\n
-          ※半角数字でお願いします。"
+          node.css('p').inner_text
         end
       else
         response = "www"
       end
-
-
+      
       case event
       when Line::Bot::Event::Message
         case event.type
