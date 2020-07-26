@@ -1,6 +1,8 @@
 class LinebotController < ApplicationController
   require 'line/bot'
-
+  require 'open-uri'
+  require 'nokogiri'
+  
   protect_from_forgery :except => [:callback]
 
   def client
@@ -23,8 +25,6 @@ class LinebotController < ApplicationController
     events = client.parse_events_from(body)
 
     events.each { |event|
-      require 'open-uri'
-      require 'nokogiri'
 
       if event.message["text"].include?("1")
         urlOdakyu = 'https://www.odakyu.jp/cgi-bin/user/emg/emergency_bbs.pl'
@@ -41,7 +41,6 @@ class LinebotController < ApplicationController
         response =
         "↓↓番号を選択↓↓\n
         1. 開成駅→会社（シャトルバス）\n
-        2. 会社→開成駅（シャトルバス）\n
         3. 電車の運行状況\n
         4. 会社周辺の天気\n
         5. 東京の天気\n\n
