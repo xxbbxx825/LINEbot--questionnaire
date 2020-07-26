@@ -26,7 +26,23 @@ class LinebotController < ApplicationController
 
 
       if event.message["text"].include?("1")
-        response = "fff"
+        urlOdakyu = 'https://www.odakyu.jp/cgi-bin/user/emg/emergency_bbs.pl'
+        charset = nil
+        htmlOdakyu = open(urlOdakyu) do |f|
+        charset = f.charset
+        f.read
+        docOdakyu = Nokogiri::HTML.parse(htmlOdakyu, nil, charset)
+        docOdakyu.xpath('//div[@id="pagettl"]').each do |node|
+        response = 
+          node.css('p').inner_text+"\n\n\n
+          ↓↓番号を選択↓↓\n
+          1. 開成駅→会社（シャトルバス）\n
+          2. 会社→開成駅（シャトルバス）\n
+          3. 電車の運行状況\n
+          4. 会社周辺の天気\n
+          5. 東京の天気\n\n
+          ※半角数字でお願いします。"
+        end
       else
         response = "www"
       end
