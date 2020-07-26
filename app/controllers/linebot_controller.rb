@@ -23,19 +23,31 @@ class LinebotController < ApplicationController
     events = client.parse_events_from(body)
 
     events.each { |event|
+
+
+      if event.message["text"].include?("1")
+        response = "fff"
+      else
+        response = "www"
+      end
+
+
       case event
       when Line::Bot::Event::Message
         case event.type
         when Line::Bot::Event::MessageType::Text
-          # LINEから送られてきたメッセージが「アンケート」と一致するかチェック
-          if event.message['text'].eql?('1')
-            # private内のtemplateメソッドを呼び出します。
-            response = "dddd"
-          end
+          message = {
+            type: 'text',
+            text: response
+          }
+          client.reply_message(event['replyToken'], message)
+        when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
+          response = client.get_message_content(event.message['id'])
+          tf = Tempfile.open("content")
+          tf.write(response.body)
         end
       end
     }
-
     head :ok
   end
 end
