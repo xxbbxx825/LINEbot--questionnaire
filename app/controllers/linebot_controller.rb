@@ -31,6 +31,7 @@ class LinebotController < ApplicationController
         htmlOdakyu = open(urlOdakyu) do |f|
         charset = f.charset
         f.read
+        end
         docOdakyu = Nokogiri::HTML.parse(htmlOdakyu, nil, charset)
         docOdakyu.xpath('//div[@id="pagettl"]').each do |node|
         response = 
