@@ -35,13 +35,12 @@ class LinebotController < ApplicationController
         end
         docOdakyu = Nokogiri::HTML.parse(htmlOdakyu, nil, charset)
         docOdakyu.xpath('//div[@id="pagettl"]').each do |node|
-        response = 
-          node.css('p').inner_text
+        response = node.css('p').inner_text
         end
       else
         response = "www"
       end
-      
+
       case event
       when Line::Bot::Event::Message
         case event.type
