@@ -25,19 +25,17 @@ class LinebotController < ApplicationController
     events.each { |event|
 
       if event.message["text"].include?("1")
-        # require 'open-uri'
-        # require 'nokogiri'
-        # urlOdakyu = 'https://www.odakyu.jp/cgi-bin/user/emg/emergency_bbs.pl'
-        # charset = nil
-        # htmlOdakyu = open(urlOdakyu) do |f|
-        #   charset = f.charset
-        #   f.read
-        # end
-        # docOdakyu = Nokogiri::HTML.parse(htmlOdakyu, nil, charset)
-        # docOdakyu.xpath('//div[@id="pagettl"]').each do |node|
-        # response = node.css('p').inner_text
-        # end
-        response = "1が入力されました"
+        require 'open-uri'
+        require 'nokogiri'
+        urlOdakyu = 'https://www.odakyu.jp/cgi-bin/user/emg/emergency_bbs.pl'
+        charset = nil
+        htmlOdakyu = open(urlOdakyu) do |f|
+          charset = f.charset
+          f.read
+        end
+        docOdakyu = Nokogiri::HTML.parse(htmlOdakyu, nil, charset)
+        announce = docOdakyu.xpath('//div[@id="pagettl"]').css('p').inner_text
+        response = announce
       else
         response =
         "↓↓番号を選択↓↓\n
