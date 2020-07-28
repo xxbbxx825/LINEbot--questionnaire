@@ -27,19 +27,27 @@ class LinebotController < ApplicationController
       if event.message["text"].include?("1")
         require 'open-uri'
         require 'nokogiri'
-        urlOdakyu = 'https://www.odakyu.jp/cgi-bin/user/emg/emergency_bbs.pl'
+        url1 = 'https://transit.yahoo.co.jp/traininfo/detail/263/0/'
         charset = nil
-        htmlOdakyu = open(urlOdakyu) do |f|
+        html1 = open(url1) do |f|
           charset = f.charset
           f.read
         end
-        docOdakyu = Nokogiri::HTML.parse(htmlOdakyu, nil, charset)
-        announce = docOdakyu.xpath('//div[@id="pagettl"]').css('p').inner_text
-        response = announce
+        doc1 = Nokogiri::HTML.parse(html1, nil, charset)
+        kanjo-line = doc1.xpath('//div[@id="mdServiceStatus"]').css('dt').inner_text
+        url2 = 'https://transit.yahoo.co.jp/traininfo/detail/277/0/'
+        charset = nil
+        html2 = open(url2) do |f|
+          charset = f.charset
+          f.read
+        end
+        doc2 = Nokogiri::HTML.parse(html2, nil, charset)
+        yamatoji-line = doc2.xpath('//div[@id="mdServiceStatus"]').css('dt').inner_text
+        response = kanjo-line+"\n"+yamatoji-line
       else
         response =
         "↓↓番号を選択↓↓\n
-        1. 開成駅→会社\n
+        1. 環状線運行情報\n
         3. 電車の運行状況\n
         4. 会社周辺の天気\n
         5. 東京の天気\n\n
