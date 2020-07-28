@@ -37,7 +37,7 @@ class LinebotController < ApplicationController
         # docOdakyu.xpath('//div[@id="pagettl"]').each do |node|
         # response = node.css('p').inner_text
         # end
-        responce = "1が入力されました"
+        response = "1が入力されました"
       else
         response =
         "↓↓番号を選択↓↓\n
