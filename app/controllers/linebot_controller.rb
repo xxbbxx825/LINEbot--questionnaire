@@ -34,7 +34,7 @@ class LinebotController < ApplicationController
           f.read
         end
         doc1 = Nokogiri::HTML.parse(html1, nil, charset)
-        kanjo-line = doc1.xpath('//div[@id="mdServiceStatus"]').css('dt').inner_text
+        kanjo = doc1.xpath('//div[@id="mdServiceStatus"]').css('dt').inner_text
         url2 = 'https://transit.yahoo.co.jp/traininfo/detail/277/0/'
         charset = nil
         html2 = open(url2) do |f|
@@ -42,8 +42,8 @@ class LinebotController < ApplicationController
           f.read
         end
         doc2 = Nokogiri::HTML.parse(html2, nil, charset)
-        yamatoji-line = doc2.xpath('//div[@id="mdServiceStatus"]').css('dt').inner_text
-        response = kanjo-line+"\n"+yamatoji-line
+        yamatoji = doc2.xpath('//div[@id="mdServiceStatus"]').css('dt').inner_text
+        response = kanjo+"\n"+yamatoji
       else
         response =
         "↓↓番号を選択↓↓\n
