@@ -1,10 +1,8 @@
 class LinebotController < ApplicationController
   require 'line/bot'
-  require 'open-uri'
-  require 'nokogiri'
   
   protect_from_forgery :except => [:callback]
-
+  
   def client
     @client ||= Line::Bot::Client.new { |config|
       config.channel_secret = ENV["LINE_CHANNEL_SECRET"]
@@ -13,35 +11,37 @@ class LinebotController < ApplicationController
       # config.channel_token = "your channel token"
     }
   end
-
+  
   def callback
     body = request.body.read
-
+    
     signature = request.env['HTTP_X_LINE_SIGNATURE']
     unless client.validate_signature(body, signature)
       head :bad_request
     end
-
+    
     events = client.parse_events_from(body)
 
     events.each { |event|
 
       if event.message["text"].include?("1")
-        urlOdakyu = 'https://www.odakyu.jp/cgi-bin/user/emg/emergency_bbs.pl'
-        charset = nil
-        htmlOdakyu = open(urlOdakyu) do |f|
-        charset = f.charset
-        f.read
-        end
-        docOdakyu = Nokogiri::HTML.parse(htmlOdakyu, nil, charset)
-        docOdakyu.xpath('//div[@id="pagettl"]').each do |node|
+        # require 'open-uri'
+        # require 'nokogiri'
+        # urlOdakyu = 'https://www.odakyu.jp/cgi-bin/user/emg/emergency_bbs.pl'
+        # charset = nil
+        # htmlOdakyu = open(urlOdakyu) do |f|
+        #   charset = f.charset
+        #   f.read
+        # end
+        # docOdakyu = Nokogiri::HTML.parse(htmlOdakyu, nil, charset)
+        # docOdakyu.xpath('//div[@id="pagettl"]').each do |node|
         # response = node.css('p').inner_text
-        response = "node.css('p').inner_text"
-        end
+        # end
+        responce = "1が入力されました"
       else
         response =
         "↓↓番号を選択↓↓\n
-        1. 開成駅→会社（シャトルバス）\n
+        1. 開成駅→会社\n
         3. 電車の運行状況\n
         4. 会社周辺の天気\n
         5. 東京の天気\n\n
