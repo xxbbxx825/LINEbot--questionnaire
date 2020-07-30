@@ -43,15 +43,10 @@ class LinebotController < ApplicationController
         end
         doc2 = Nokogiri::HTML.parse(html2, nil, charset)
         yamatoji = doc2.xpath('//div[@id="mdServiceStatus"]').css('dt').inner_text
-        response = kanjo+"\n"+yamatoji
+        response = "大阪環状線 "+kanjo+"\n"+"大和路線 "+yamatoji
       else
         response =
-        "↓↓番号を選択↓↓\n
-        1. 環状線運行情報\n
-        3. 電車の運行状況\n
-        4. 会社周辺の天気\n
-        5. 東京の天気\n\n
-        ※半角数字でお願いします。"
+        "1. JR運行情報\n3. 電車の運行状況\n4. 会社周辺の天気\n5. 東京の天気"
       end
 
       case event
