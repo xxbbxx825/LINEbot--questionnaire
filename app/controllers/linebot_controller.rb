@@ -58,6 +58,8 @@ class LinebotController < ApplicationController
         wheather = doc3.xpath('//pre[@class="textframe"]').inner_text
         response = wheather
 
+      elsif event.message["text"].include?("3")
+        response = "3が入力されました"
       else
         response =
         "1. JR運行情報\n3. 電車の運行状況\n4. 会社周辺の天気\n5. 東京の天気"
