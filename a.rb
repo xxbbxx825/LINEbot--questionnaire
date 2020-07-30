@@ -29,11 +29,21 @@ p kanjo
 # yamatoji = doc2.xpath('//div[@id="mdServiceStatus"]').css('dt').inner_text
 # p kanjo+"\n"+yamatoji
 
-API_KEY = "2b31d52023fd8dff8d019142f0e83874"
-BASE_URL = "http://api.openweathermap.org/data/2.5/forecast"
+url3 = 'https://www.jma.go.jp/jp/yoho/331.html'
+charset = nil
+html3 = open(url3) do |f|
+  charset = f.charset
+  f.read
+end
+doc3 = Nokogiri::HTML.parse(html3, nil, charset)
+ddd = doc3.xpath('//pre[@class="textframe"]').inner_text
+p ddd
 
-require "json"
-require "open-uri"
+# API_KEY = "2b31d52023fd8dff8d019142f0e83874"
+# BASE_URL = "http://api.openweathermap.org/data/2.5/forecast"
 
-response = open(BASE_URL + "?q=Akashi-shi,jp&APPID=#{API_KEY}")
-puts JSON.pretty_generate(JSON.parse(response.read))
+# require "json"
+# require "open-uri"
+
+# response = open(BASE_URL + "?q=Akashi-shi,jp&APPID=#{API_KEY}")
+# puts JSON.pretty_generate(JSON.parse(response.read))

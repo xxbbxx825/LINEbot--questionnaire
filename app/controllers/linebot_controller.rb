@@ -44,9 +44,21 @@ class LinebotController < ApplicationController
         doc2 = Nokogiri::HTML.parse(html2, nil, charset)
         yamatoji = doc2.xpath('//div[@id="mdServiceStatus"]').css('dt').inner_text
         response = "大阪環状線 "+kanjo+"\n"+"大和路線 "+yamatoji
+      elsif event.message["text"].include?("2")
+        require 'open-uri'
+        require 'nokogiri'
+        url3 = 'https://www.jma.go.jp/jp/yoho/331.html'
+        charset = nil
+        html3 = open(url3) do |f|
+          charset = f.charset
+          f.read
+        end
+        doc3 = Nokogiri::HTML.parse(html3, nil, charset)
+        OsakaWheather = doc3.xpath('//pre[@class="textframe"]').inner_text
+        response = OsakaWheather
       else
         response =
-        "1. JR運行情報\n3. 電車の運行状況\n4. 会社周辺の天気\n5. 東京の天気"
+        "1. JR運行情報\n2. 大阪に天気概況\n4. 会社周辺の天気\n5. 東京の天気"
       end
 
       case event
