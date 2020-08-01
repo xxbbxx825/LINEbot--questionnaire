@@ -59,10 +59,10 @@ class LinebotController < ApplicationController
         response = wheather
 
       elsif event.message["text"].include?("3")
-        response = "3が入力されました"
+      response = "3が入力されました"
       else
         response =
-        "1. JR運行情報\n3. 電車の運行状況\n4. 会社周辺の天気\n5. 東京の天気"
+        "1. JR運行情報\n2. 大阪の天気概況\n3. 会社周辺の天気\n4. 東京の天気"
       end
 
       case event
