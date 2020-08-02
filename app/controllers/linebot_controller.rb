@@ -24,6 +24,7 @@ class LinebotController < ApplicationController
 
     events.each { |event|
       require 'capybara/poltergeist'
+      require 'phantomjs/poltergeist'
       require 'open-uri'
       require 'nokogiri'
       if event.message["text"].include?("1")
