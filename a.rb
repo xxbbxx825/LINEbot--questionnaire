@@ -1,49 +1,35 @@
-require 'open-uri'
+# require 'bundler/setup'
+# require 'capybara/poltergeist'
+# Bundler.require
+
+# Capybara.register_driver :poltergeist do |app|
+#   Capybara::Poltergeist::Driver.new(app, {:js_errors => false, :timeout => 100,
+#     phantomjs_options: [
+#               '--load-images=no',
+#               '--ignore-ssl-errors=yes',
+#               '--ssl-protocol=any'] })
+# end
+# session = Capybara::Session.new(:poltergeist)
+# session.visit "https://www.yahoo.co.jp/"
+# puts session.title
+
+require 'capybara/poltergeist'
 require 'nokogiri'
-url1 = 'https://weather.yahoo.co.jp/weather/jp/27/6200/27107.html'
-charset = nil
-html1 = open(url1) do |f|
-  charset = f.charset
-  f.read
+
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app, {:js_errors => false, :timeout => 5000,phantomjs_options: [
+                   '--load-images=no',
+                 '--ignore-ssl-errors=yes',
+                '--ssl-protocol=any'] })
 end
-doc1 = Nokogiri::HTML.parse(html1, nil, charset)
-kanjo = doc1.xpath('//div[@id="yjw_pinpoint_today"]').css('small').inner_text
-p kanjo
-# require 'open-uri'
-# require 'nokogiri'
-# url1 = 'https://transit.yahoo.co.jp/traininfo/detail/263/0/'
-# charset = nil
-# html1 = open(url1) do |f|
-#   charset = f.charset
-#   f.read
-# end
-# doc1 = Nokogiri::HTML.parse(html1, nil, charset)
-# kanjo = doc1.xpath('//div[@id="mdServiceStatus"]').css('dt').inner_text
-# url2 = 'https://transit.yahoo.co.jp/traininfo/detail/277/0/'
-# charset = nil
-# html2 = open(url2) do |f|
-#   charset = f.charset
-#   f.read
-# end
-# doc2 = Nokogiri::HTML.parse(html2, nil, charset)
-# yamatoji = doc2.xpath('//div[@id="mdServiceStatus"]').css('dt').inner_text
-# p kanjo+"\n"+yamatoji
 
-url3 = 'https://www.jma.go.jp/jp/yoho/331.html'
-charset = nil
-html3 = open(url3) do |f|
-  charset = f.charset
-  f.read
-end
-doc3 = Nokogiri::HTML.parse(html3, nil, charset)
-ddd = doc3.xpath('//pre[@class="textframe"]').inner_text
-p ddd
+session = Capybara::Session.new(:poltergeist)
 
-# API_KEY = "2b31d52023fd8dff8d019142f0e83874"
-# BASE_URL = "http://api.openweathermap.org/data/2.5/forecast"
-
-# require "json"
-# require "open-uri"
-
-# response = open(BASE_URL + "?q=Akashi-shi,jp&APPID=#{API_KEY}")
-# puts JSON.pretty_generate(JSON.parse(response.read))
+session.driver.headers = {
+    'User-Agent' => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2564.97 Safari/537.36"
+}
+session.visit "https://hazard.yahoo.co.jp/article/covid19osaka"
+html4 = session.html
+doc4 = Nokogiri::HTML.parse(html4)
+pandemic = doc4.xpath('//*[@id="box"]/div/dl[1]/div[2]').inner_text
+p pandemic
