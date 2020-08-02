@@ -78,9 +78,10 @@ class LinebotController < ApplicationController
         pandemic1 = doc4.xpath('//*[@id="box"]/div/dl[1]/div[1]').inner_text
         pandemic2 = doc4.xpath('//*[@id="box"]/div/dl[1]/div[2]').inner_text
         pandemic3 = doc4.xpath('//*[@id="box"]/div/dl[1]/div[3]').inner_text
-        response = "大阪府 新型コロナ関連情報\n" + pandemic1 + "\n" + pandemic2 + "\n" + pandemic3 
+        # response = "大阪府 新型コロナ関連情報\n" + pandemic1 + "\n" + pandemic2 + "\n" + pandemic3 
+        response = "sss" 
       else
-        response = "1. JR運行情報\n2. 大阪の天気概況\n3. 会社周辺の天気"
+        response = "1. JR運行情報\n2. 大阪の天気概況\n3. 新型コロナ感染状況"
       end
 
       case event
