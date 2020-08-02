@@ -1,5 +1,6 @@
+require 'nokogiri'
+require 'open-uri'
 require 'capybara/poltergeist'
-        require 'nokogiri'
         Capybara.register_driver :poltergeist do |app|
           Capybara::Poltergeist::Driver.new(app, {:js_errors => false, :timeout => 5000,phantomjs_options: [
                           '--load-images=no',
