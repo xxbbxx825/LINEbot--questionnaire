@@ -60,6 +60,7 @@ class LinebotController < ApplicationController
 
       elsif event.message["text"].include?("3")
         require 'capybara/poltergeist'
+        require 'open-uri'
         require 'nokogiri'
         Capybara.register_driver :poltergeist do |app|
           Capybara::Poltergeist::Driver.new(app, {:js_errors => false, :timeout => 5000,phantomjs_options: [
@@ -79,8 +80,7 @@ class LinebotController < ApplicationController
         pandemic3 = doc4.xpath('//*[@id="box"]/div/dl[1]/div[3]').inner_text
         response = "大阪府 新型コロナ関連情報\n" + pandemic1 + "\n" + pandemic2 + "\n" + pandemic3 
       else
-        response =
-        "1. JR運行情報\n2. 大阪の天気概況\n3. 会社周辺の天気"
+        response = "1. JR運行情報\n2. 大阪の天気概況\n3. 会社周辺の天気"
       end
 
       case event
