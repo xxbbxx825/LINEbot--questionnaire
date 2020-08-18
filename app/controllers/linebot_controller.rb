@@ -41,6 +41,8 @@ class LinebotController < ApplicationController
         doc5 = Nokogiri::HTML.parse(html5)
         jr1 = doc5.xpath('//*[@id="chiku_unkolist"]/ul/li[1]/span[1]').inner_text
         jr2 = doc5.xpath('//*[@id="chiku_unkolist"]/ul/li[1]/span[3]').inner_text
+        response = jr1+"\n"+jr2
+      elsif event.message["text"].include?("2")
         url3 = 'https://www.jma.go.jp/jp/yoho/331.html'
         charset = nil
         html3 = open(url3) do |f|
@@ -49,6 +51,9 @@ class LinebotController < ApplicationController
         end
         doc3 = Nokogiri::HTML.parse(html3, nil, charset)
         wheather = doc3.xpath('//pre[@class="textframe"]').inner_text
+        response = wheather
+
+      elsif event.message["text"].include?("3")
         Capybara.register_driver :poltergeist do |app|
         Capybara::Poltergeist::Driver.new(app, {:js_errors => false, :timeout => 5000,phantomjs_options: [
                                           '--load-images=no',
@@ -65,7 +70,7 @@ class LinebotController < ApplicationController
         pandemic1 = doc4.xpath('//*[@id="box"]/div/dl[1]/div[1]').inner_text
         pandemic2 = doc4.xpath('//*[@id="box"]/div/dl[1]/div[2]').inner_text
         pandemic3 = doc4.xpath('//*[@id="box"]/div/dl[1]/div[3]').inner_text
-        response =  jr1+"\n"+jr2 + "\n" + whether + "大阪府 新型コロナ関連情報\n" + pandemic1 + "\n" + pandemic2 + "\n" + pandemic3
+        response = "大阪府 新型コロナ関連情報\n" + pandemic1 + "\n" + pandemic2 + "\n" + pandemic3
 
       else
         response = "1. JR運行情報\n2. 大阪の天気概況\n3. 新型コロナ感染状況"
