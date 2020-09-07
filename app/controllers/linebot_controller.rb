@@ -73,7 +73,7 @@ class LinebotController < ApplicationController
         response = "大阪府 新型コロナ関連情報\n" + pandemic1 + "\n" + pandemic2 + "\n" + pandemic3
 
       else
-        response = "1. JR運行情報\n2. 大阪の天気概況\n3. 新型コロナ感染状況"
+        response = "1. JR西日本運行情報\n2. 大阪の天気概況\n3. 大阪府新型コロナ感染状況"
       end
 
       case event
